@@ -22,9 +22,8 @@ class Login extends CI_Controller {
 				if(strcmp($passwd, $row->password))
 				{
 					$this->my_tools->output(1, 'Password wrong.');
-				}else{
-					$session_id=$this->session->userdata('session_id');
-					$this->my_tools->my_set_cookie('session_id',$session_id);
+				}else{					
+					$this->auth_tools->generateCookie($email,$passwd);
 					$this->my_tools->output(0, 'Login successfully.');
 				}
 			}
