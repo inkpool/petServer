@@ -9,11 +9,6 @@ class Auth_tools
 		$this->CI =& get_instance();
 	}
 	
-	public function checkSession()
-	{
-		
-	}
-	
 	public function generateCookie($email,$passwd)
 	{
 		$session_id=$this->CI->session->userdata('session_id');

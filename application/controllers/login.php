@@ -1,9 +1,11 @@
 <?php
 
 class Login extends CI_Controller {
-
+	
+	//login默认方法，用来登陆
 	public function index()
 	{
+		$this->load->library('user');
 		$postData=json_decode($GLOBALS['HTTP_RAW_POST_DATA'],TRUE);	
 		if(empty($postData['userinfo']['email'])||empty($postData['userinfo']['password']))
 		{
@@ -12,19 +14,17 @@ class Login extends CI_Controller {
 		else {
 			$email=$postData['userinfo']['email'];
 			$passwd=$postData['userinfo']['password'];
-			$this->db->select('password')->from('xmc_users')->where('email',$email);
-			$query=$this->db->get();
-			if($query->num_rows()==0)
+			if($this->user->ifExist($email)==0)
 			{
 				$this->my_tools->output(3, 'Username not exists.');
 			}else{
-				$row=$query->row();
-				if(strcmp($passwd, $row->password))
+				if($this->user->checkPassword($email,$passwd))
 				{
-					$this->my_tools->output(1, 'Password wrong.');
-				}else{					
 					$this->auth_tools->generateCookie($email,$passwd);
 					$this->my_tools->output(0, 'Login successfully.');
+				}
+				else{
+					$this->my_tools->output(1, 'Password wrong.');
 				}
 			}
 		}
@@ -32,6 +32,7 @@ class Login extends CI_Controller {
 
 	public function register()
 	{
+		$this->load->library('user');
 		$postData=json_decode($GLOBALS['HTTP_RAW_POST_DATA'],TRUE);	
 		if(empty($postData['userinfo']['email'])||empty($postData['userinfo']['password']))
 		{
@@ -41,22 +42,13 @@ class Login extends CI_Controller {
 		{
 			$email=$postData['userinfo']['email'];
 			$passwd=$postData['userinfo']['password'];
-			$this->db->select('user_id')->from('xmc_users')->where('email',$email);
-			$ifExsit=$this->db->count_all_results();
-			if($ifExsit!=0)
+			if($this->user->ifExist($email))
 			{
 				$this->my_tools->output(4, 'This email already existed.');
 			}
 			else
 			{
-				$timestamp=time();
-				$userData = array(
-						'index' => '',
-						'email' => $email ,
-						'password' => $passwd ,
-						'add_time' => $timestamp,
-				);
-				$this->db->insert('xmc_users', $userData);
+				$this->user->addUser($email,$passwd);
 				$this->my_tools->output(0, 'Register successfully.');
 			}
 		}
@@ -65,6 +57,7 @@ class Login extends CI_Controller {
 	public function logout()
 	{
 		$this->session->sess_destroy();
+		$this->cookie->delete_cookie('auth_cookie');
 		$this->my_tools->output(0, 'Logout successfully.');
 	}
 	
