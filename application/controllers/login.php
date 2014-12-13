@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 	//login默认方法，用来登陆
 	public function index()
 	{
-		$this->load->library('user');
+		$this->load->model('User_model','user');
 		$postData=json_decode($GLOBALS['HTTP_RAW_POST_DATA'],TRUE);	
 		if(empty($postData['userinfo']['email'])||empty($postData['userinfo']['password']))
 		{
@@ -32,7 +32,7 @@ class Login extends CI_Controller {
 
 	public function register()
 	{
-		$this->load->library('user');
+		$this->load->model('User_model','user');
 		$postData=json_decode($GLOBALS['HTTP_RAW_POST_DATA'],TRUE);	
 		if(empty($postData['userinfo']['email'])||empty($postData['userinfo']['password']))
 		{

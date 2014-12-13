@@ -26,6 +26,7 @@ class Auth_tools
 	
 	public function checkCookie($cookie)
 	{
-		
+		$auth_info=$this->CI->input->cookie('auth_cookie');
+		split($pattern, $string)
 	}
 }

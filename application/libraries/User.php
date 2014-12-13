@@ -16,7 +16,7 @@ class User{
 	
 	public function ifExist($email)
 	{
-		$this->CI->db->select('user_id')->from('xmc_users')->where('email',$email);
+		$this->CI->db->select('user_id')->from('my_users')->where('email',$email);
 		$num=$this->CI->db->count_all_results();
 		return $num;
 	}
@@ -27,18 +27,18 @@ class User{
 		$userData = array(
 				'index' => '',
 				'email' => $email ,
-				'password' => $passwd ,
+				'password' => $password ,
 				'add_time' => $timestamp,
 				'user_name'=>'',
 				'sex'=>'',
 				'intro'=>'',
 		);
-		$this->CI->db->insert('xmc_users', $userData);
+		$this->CI->db->insert('my_users', $userData);
 	}
 	
 	public function checkPassword($email,$password)
 	{
-		$this->CI->db->select('password')->from('xmc_users')->where('email',$email);
+		$this->CI->db->select('password')->from('my_users')->where('email',$email);
 		$row=$this->CI->db->get()->row();
 		if(strcmp($password, $row->password))
 			return False;
