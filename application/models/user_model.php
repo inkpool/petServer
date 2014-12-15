@@ -1,7 +1,9 @@
 <?php
 
 class User_model extends CI_Model{
-	
+	/*
+	 * User_model对应my_users表
+	 */
 	var $index=null;
 	var $email='';
 	var $password='';
@@ -45,4 +47,33 @@ class User_model extends CI_Model{
 			return False;
 		return TRUE;
 	}
+	
+	//根据email获得用户信息数组
+	function getUserByEmail($email)
+	{
+		$query=$this->db->select('*')->from('my_users')->where('email',$email);
+		return $query->get()->row_array();
+	}
+	
+	//根据id获取用户信息
+	function getUserById($id)
+	{
+		$query=$this->db->select('*')->from('my_users')->where('index',$id);
+		return $query->get()->row_array();
+	}
+	
+	function getIdByEmail($email)
+	{
+		$query=$this->db->select('*')->from('my_users')->where('email',$email);
+		$result=$query->get()->row_array();
+		return $result['index'];
+	}
+	
+	function getEmailById($index)
+	{
+		$query=$this->db->select('*')->from('my_users')->where('index',$index);
+		$result=$query->get()->row_array();
+		return $result['email'];
+	}
+	
 }

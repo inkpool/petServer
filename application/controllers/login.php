@@ -67,4 +67,11 @@ class Login extends CI_Controller {
 		$this->session->set_userdata('test','hehe');
 		$this->my_tools->my_set_cookie('session_id',$session_id);
 	}
+	
+	public function test2()
+	{
+		$this->load->model('Post_model','post');
+		
+
+	}
 }
