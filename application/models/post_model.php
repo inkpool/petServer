@@ -11,15 +11,20 @@
 			
 		}
 		
+		function deletePost()
+		{
+			
+		}
+		
 		function getPostById($id)
 		{
 			$query=$this->db->select('*')->from('my_posts')->where('index',$id);
-			echo $query->get()->row_array();
+			return $query->get()->row_array();
 		}
 		
 		function getPostsByUserid($userid)
 		{
 			$query=$this->db->select('*')->from('my_posts')->where('user_id',$userid);
-			echo $query->get()->row_array();
+			return $query->get()->result();
 		}
 	}

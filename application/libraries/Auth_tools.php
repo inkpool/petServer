@@ -23,13 +23,11 @@ class Auth_tools
 		$this->CI->my_tools->my_set_cookie('auth_cookie',base64_encode($cookie_string));
 	}
 	
-	public function checkCookie($cookie)
+	public function checkCookie($auth_info)
 	{
-		//检查cookie是否已经过期
-		if(isset($this->CI->input->cookie('auth_cookie')))
+		if(isset($auth_info))
 		{
-			$auth_info=$this->CI->input->cookie('auth_cookie');
-			$auth_array=split(':', base64_decode($auth_info));
+			$auth_array=explode(':', base64_decode($auth_info));
 			if(count($auth_array)!=2) //数组长度是否异常
 			{
 				return false;
@@ -37,7 +35,16 @@ class Auth_tools
 			else{
 				$email=$auth_array[0];
 				$token=$auth_array[1];
-
+				$this->CI->load->model('User_model','user');
+				$aUser=$this->CI->user->getUserByEmail($email);
+				$right_token=md5($aUser['email'].$aUser['password'].'inkjake@sjtu');
+				if(strcmp($token, $right_token))
+				{
+					return false;
+				}else
+				{
+					return $aUser;
+				}
 			}
 		}else{
 			return false;

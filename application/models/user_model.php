@@ -19,8 +19,8 @@ class User_model extends CI_Model{
 	
     function ifExist($email)
 	{
-		$this->db->select('user_id')->from('my_users')->where('email',$email);
-		$num=$this->db->count_all_results();
+		$query=$this->db->select('*')->from('my_users')->where('email',$email);
+		$num=$query->count_all_results();
 		return $num;
 	}
 	
