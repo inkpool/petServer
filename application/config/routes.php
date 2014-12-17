@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "testcl";
+$route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['welcome'] = "welcome";

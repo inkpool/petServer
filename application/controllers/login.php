@@ -68,12 +68,12 @@ class Login extends CI_Controller {
 	
 	public function test2()
 	{
-// 		$this->load->model('Post_model','post');
-// 		$posts=$this->post->getPostsByUserid(1);
-// 		var_dump(json_encode($posts));
-		var_dump($this->input->cookie('auth_cookie'));
-		$current_user=$this->auth_tools->checkCookie($this->input->cookie('auth_cookie'));
-		var_dump($current_user);
+		$this->load->model('Post_model','post');
+		$posts=$this->post->getPostsByUserid(1,1,0);
+		var_dump(json_encode($posts));
+// 		var_dump($this->input->cookie('auth_cookie'));
+// 		$current_user=$this->auth_tools->checkCookie($this->input->cookie('auth_cookie'));
+// 		var_dump($current_user);
 
 	}
 }
