@@ -37,5 +37,13 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+define('UPLOAD',dirname(dirname(dirname(__FILE__))).'/pics/');
+define('AVATAR',dirname(dirname(dirname(__FILE__))).'/avatar/');
+define('PET_AVATAR',dirname(dirname(dirname(__FILE__))).'/pet_avatar/');
+define('PHOTO_URL','http://128.199.226.246/pics/');
+define('AVATAR_URL','http://128.199.226.246/avatar/');
+define('PET_AVATAR_URL','http://128.199.226.246/pet_avatar/');
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

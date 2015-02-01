@@ -17,42 +17,66 @@ class User_model extends CI_Model{
 		parent::__construct();
 	}
 	
-    function ifExist($email)
+    function ifExist($phone_number)
 	{
-		$query=$this->db->select('*')->from('my_users')->where('email',$email);
+		$query=$this->db->select('*')->from('my_users')->where('phone_number',$phone_number);
 		$num=$query->count_all_results();
 		return $num;
 	}
 	
-	function addUser($email,$password)  //注册时只提供两个信息，其余信息为空
+	function addUser($phone_number,$password)  //注册时只提供两个信息，其余信息为空
 	{
 		$timestamp=time();
 		$userData = array(
 				'index' => '',
-				'email' => $email ,
+				'phone_number' => $phone_number ,
 				'password' => $password ,
 				'add_time' => $timestamp,
 				'user_name'=>'',
+				'user_location'=>'',
 				'sex'=>'',
+				'avatar'=>'',
 				'intro'=>'',
 		);
 		$this->db->insert('my_users', $userData);
 	}
 	
-	function checkPassword($email,$password)
+	function updateUser($user_id,$user_name,$sex,$user_location,$avatar,$intro)
 	{
-		$this->db->select('password')->from('my_users')->where('email',$email);
+		if($avatar)
+		{
+			$new_data=array(
+		
+					'user_name'=>$user_name,
+					'sex'=>$sex,
+					'user_location'=>$user_location,
+					'avatar'=>$avatar,
+					'intro'=>$intro,
+					'if_old'=>1,
+			);
+		}else
+		{
+			$new_data=array(
+			
+					'user_name'=>$user_name,
+					'sex'=>$sex,
+					'user_location'=>$user_location,
+					'intro'=>$intro,
+					'if_old'=>1,
+			);
+		}
+		
+		$this->db->where('index', $user_id);
+		$this->db->update('my_users', $new_data);
+	}
+	
+	function checkPassword($phone_number,$password)
+	{
+		$this->db->select('password')->from('my_users')->where('phone_number',$phone_number);
 		$row=$this->db->get()->row();
 		if(strcmp($password, $row->password))
 			return False;
 		return TRUE;
-	}
-	
-	//根据email获得用户信息数组
-	function getUserByEmail($email)
-	{
-		$query=$this->db->select('*')->from('my_users')->where('email',$email);
-		return $query->get()->row_array();
 	}
 	
 	//根据id获取用户信息
@@ -62,18 +86,25 @@ class User_model extends CI_Model{
 		return $query->get()->row_array();
 	}
 	
-	function getIdByEmail($email)
+	function getUserByPhone($phone_number)
 	{
-		$query=$this->db->select('*')->from('my_users')->where('email',$email);
+		$query=$this->db->select('*')->from('my_users')->where('phone_number',$phone_number);
 		$result=$query->get()->row_array();
-		return $result['index'];
+		return $result;
 	}
 	
-	function getEmailById($index)
-	{
-		$query=$this->db->select('*')->from('my_users')->where('index',$index);
-		$result=$query->get()->row_array();
-		return $result['email'];
+	function repack($user,$if_follow=true)
+	{	
+		$android_user=array(
+				'user_id'=>intval($user['index']),
+				'user_name'=>$user['user_name'],
+				'user_location'=>$user['user_location'],
+				'sex'=>intval($user['sex']),
+				'avatar'=>AVATAR_URL.$user['avatar'],
+				'intro'=>$user['intro'],
+				'if_follow'=>$if_follow,
+		);
+		return $android_user;
 	}
 	
 }

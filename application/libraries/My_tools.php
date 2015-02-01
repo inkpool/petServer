@@ -11,12 +11,24 @@ class My_tools
 	
 	public function output($code,$content)
 	{
-		$message=array(
-				'status'=>$code,
-				'error_content'=>$content,
-		);
-		echo json_encode($message);
-		exit();
+		if($code!=0)
+		{
+			$message=array(
+					'status'=>$code,
+					'error'=>$content,
+			);
+			echo json_encode($message);
+			exit();
+		}else
+		{
+			$message=array(
+					'status'=>$code,
+					'body'=>$content,
+			);
+			echo json_encode($message);
+			exit();
+		}
+		
 	}
 	
 	public function my_set_cookie($name,$value)
@@ -29,4 +41,5 @@ class My_tools
 			
 		$this->CI->input->set_cookie($cookie);
 	}
+	
 }
