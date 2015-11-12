@@ -1,5 +1,5 @@
 petServer
 =========
 
-Server part of ChongAi. https://github.com/jaycelq/ChongAi
+Server part of <a href="https://github.com/jaycelq/ChongAi">ChongAi</a>.   
 This project is written by PHP with CodeIgnitor.
